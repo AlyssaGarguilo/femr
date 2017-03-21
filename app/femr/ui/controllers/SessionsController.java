@@ -54,7 +54,11 @@ public class SessionsController extends Controller {
         ServiceResponse<CurrentUser> response = sessionsService.createSession(viewModel.getEmail(), viewModel.getPassword(), request().remoteAddress());
 
         if (response.hasErrors()) {
-            return ok(create.render(createViewModelForm));
+            CreateViewModel filledViewModel = new CreateViewModel();
+            filledViewModel.setEmail(viewModel.getEmail());
+            Form<CreateViewModel> filledViewModelForm = formFactory.form(CreateViewModel.class).fill(filledViewModel);
+
+            return ok(create.render(filledViewModelForm));
         }else{
             IUser user = userService.retrieveById(response.getResponseObject().getId());
             user.setLastLogin(dateUtils.getCurrentDateTime());
