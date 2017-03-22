@@ -10,8 +10,8 @@
     @helper.form(action = SessionsController.createPost(), 'class -> "form-signin") {
         <div id="login">
             <h1>Please sign in</h1>
-            @helper.inputText(createForm("email")) { (placeholder) =>
-                <input type="text" name="email" placeholder=@placeholder />
+            @helper.input(createForm("placeholder")) { (placeholder) =>
+                <input type="text" name="email" placeholder="@placeholder" />
             }
             <input type="password" name="password" placeholder="Password" />
             <input type="submit" value="Log in" />
