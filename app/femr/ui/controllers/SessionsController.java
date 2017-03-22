@@ -57,7 +57,6 @@ public class SessionsController extends Controller {
             CreateViewModel filledViewModel = new CreateViewModel();
             filledViewModel.setEmail(viewModel.getEmail());
             Form<CreateViewModel> filledViewModelForm = formFactory.form(CreateViewModel.class).fill(filledViewModel);
-
             return ok(create.render(filledViewModelForm));
         }else{
             IUser user = userService.retrieveById(response.getResponseObject().getId());
