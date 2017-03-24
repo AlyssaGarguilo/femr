@@ -38,7 +38,9 @@ public class SessionsController extends Controller {
     public Result createGet() {
         CurrentUser currentUser = sessionsService.retrieveCurrentUserSession();
 
-        final Form<CreateViewModel> createViewModelForm = formFactory.form(CreateViewModel.class);
+        CreateViewModel viewModel = new CreateViewModel();
+        viewModel.setEmail("");
+        Form<CreateViewModel> createViewModelForm = formFactory.form(CreateViewModel.class).fill(viewModel);
 
         if (currentUser != null) {
             return redirect(routes.HomeController.index());
@@ -55,7 +57,11 @@ public class SessionsController extends Controller {
 
         if (response.hasErrors()) {
             CreateViewModel filledViewModel = new CreateViewModel();
-            filledViewModel.setEmail(viewModel.getEmail());
+            if (viewModel.getEmail() == null) {
+                filledViewModel.setEmail("");
+            } else {
+                filledViewModel.setEmail(viewModel.getEmail());
+            }
             Form<CreateViewModel> filledViewModelForm = formFactory.form(CreateViewModel.class).fill(filledViewModel);
             return ok(create.render(filledViewModelForm));
         }else{
@@ -108,9 +114,9 @@ public class SessionsController extends Controller {
             if(viewModel.getNewPassword().length() < 6)        //AJ Saclayan Password Constraints
                 messages.add("password is less than 6 characters");
             if (!hasUppercase.matcher(viewModel.getNewPassword()).find())
-                    messages.add("password must have an uppercase");
+                messages.add("password must have an uppercase");
             if (!hasNumber.matcher(viewModel.getNewPassword()).find())
-                    messages.add("password must have a number");
+                messages.add("password must have a number");
             if(!viewModel.getNewPassword().equals(viewModel.getNewPasswordVerify()))
                 messages.add("passwords do not match");
             //check if new password is equal to the old password

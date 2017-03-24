@@ -2,15 +2,18 @@
 
 @import femr.ui.views.html.layouts.main
 @import femr.ui.controllers.routes.SessionsController
+@implicitField = @{helper.FieldConstructor(femr.ui.views.html.sessions.createFieldConstructorTemplate.f)}
+
 @styles = {
     <link rel="stylesheet" href="@routes.Assets.versioned("css/login.css")">
 }
+
 @main("Login", styles = styles) {
 
     @helper.form(action = SessionsController.createPost(), 'class -> "form-signin") {
         <div id="login">
             <h1>Please sign in</h1>
-            @helper.inputText(createForm("is this the id?"),
+            @helper.inputText(createForm("email"),
                 'name -> "email",
                 'placeholder -> "Email",
                 '_label -> null
